@@ -1,0 +1,23 @@
+{% extends 'home/user-base.html' %}
+{% load staticfiles %}
+{% block title %}Login{% endblock %}
+{% block user-base %}
+    <form method="POST">
+        {% csrf_token %}
+        {% for key, value in form.erros.item %}
+            {{ value }}
+        {% endfor %}
+        <p><input type="username" class="form-control" id="username" name="{{ form.username.name }}"
+                  placeholder="Tài khoản"></p>
+        <p><input type="password" class="form-control" id="pwd" name="{{ form.password.name }}"
+                  placeholder="Mật khẩu"></p>
+        <div class="checkbox">
+            <label><input type="checkbox"> Nhớ mật khẩu</label>
+        </div>
+        <input type="hidden" name="next" value="/">
+        <div class="text-center">
+            <button class="btn button-add" type="submit" name="submit">Đăng nhập</button>
+        </div>
+        <br>
+    </form>
+{% endblock %}

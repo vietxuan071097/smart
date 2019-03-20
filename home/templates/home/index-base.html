@@ -1,0 +1,10 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% block base %}
+    {% block index-base %}
+    {% endblock %}
+    <a class="cart-button" href="{% url 'home:cart' %}">
+        <img class="img-button" src="{% static 'home/images/icon.png' %}" alt="Logo smart">
+        <p class="badge cart-button ball" id="count-items">{{ count }}</p>
+    </a>
+{% endblock %}

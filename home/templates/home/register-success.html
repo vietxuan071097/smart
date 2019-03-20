@@ -1,0 +1,9 @@
+{% extends 'home/user-base.html' %}
+{% load staticfiles %}
+{% block title %}Success{% endblock %}
+{% block user-base %}
+    <div class="text-center text-style">
+        <h3>Đăng ký tài khoản thành công</h3>
+        <a href="{% url 'home:index' %}"><p class="text-style">Về trang chủ</p></a>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% block base %}
+    <br>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 col-centered user-base">
+                    <br>
+                    <div class="text-center">
+                        <img class="logo-smart" src="{% static 'home/images/icon.png' %}">
+                    </div>
+                    <br>
+                    <div class="container">
+                        {% block user-base %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+{% endblock %}

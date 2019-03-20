@@ -1,0 +1,27 @@
+{% extends 'home/index-base.html' %}
+{% load staticfiles %}
+{% block index-base %}
+    <div class="container">
+        <div class="text-center">
+            <h3>Tên món ăn: {{ product.name }}</h3>
+            <img src="{{ product.get_img.img.url }}" style='height: 50%; width: 50%; object-fit: contain'/>
+            <p><strong>Giá tiền: </strong>{{ product.number }} VNĐ</p>
+            <div class="text-center">
+                <button type="submit" onclick="add_button('{{ product.id }}','{{ product.name }}')"
+                        class="btn button-add"><i class="fa fa-cart-plus center" aria-hidden="true"></i> Thêm vào giỏ
+                    hàng
+                </button>
+            </div>
+            <p><strong>Thông tin món ăn: </strong>{{ product.detail }}</p>
+        </div>
+        <h3>Hình ảnh chi tiết</h3>
+        <div class="row">
+            {% for image in images %}
+                <div class="col-md-4 text-center">
+                    <img src="{{ image.img.url }}" style="height: 200px">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <br>
+{% endblock %}

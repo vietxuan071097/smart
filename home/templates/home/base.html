@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} {% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'home/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'home/favicon/favicon.ico' %}"/>
+</head>
+<body>
+<div id="header">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="social" href="{% url 'home:index' %}"><img src="{% static 'home/images/logo.png' %}" id="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSmart"
+                aria-controls="navbarSmart" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSmart">
+            <ul class="navbar-nav" style="margin: 0 auto;">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'home:index' %}">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Giới thiệu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Liên hệ</a>
+                </li>
+                {% if user.username == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Quản lý</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated %}
+                <div class="text-style">Xin chào <a class="text-style" href="#">{{ user.username }}</a> | <a
+                        class="text-style" href="{% url 'home:logout' %}">Đăng xuất</a></div>
+            {% else %}
+                <div><a class="text-style" href="{% url 'home:login' %}">Đăng nhập</a> | <a class="text-style"
+                                                                                            href="{% url 'home:register' %}">Tạo
+                    tài khoản</a>
+                </div>
+            {% endif %}
+            <a class="text-style" href="https://www.facebook.com/VirustotalUITEdition" data-toggle="tooltip"
+               title="Facebook"><i id="social-fb" class="fa fa-facebook-square fa-2x social"></i></a>
+            <a class="text-style" href="https://plus.google.com/u/0/100716740184414915598" data-toggle="tooltip"
+               title="Google+"><i id="social-gp" class="fa fa-google-plus-square fa-2x social"></i></a>
+            <a class="text-style" href="mailto:vietxuan071097@gmail.com" data-toggle="tooltip" title="Mail"><i
+                    id="social-em" class="fa fa-envelope-square fa-2x social"></i></a>
+        </div>
+    </nav>
+</div>
+<div id="main">
+    {% block base %}
+    {% endblock %}
+</div>
+<div id="footer">
+    <div class="text-center" style="background-color: #6351ce;">
+        <p style="color: #6351ce;">Django Project by Nguyễn Viết Xuân</p>
+    </div>
+    <div class="container text-center text-md-left mt-5">
+        <div class="container row">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <h6 style="color:#188C18" class="text-uppercase font-weight-bold">CÔNG TY S*MART THUẦN VIỆT</h6>
+                    <hr style="width: 120px;">
+                    <br>
+                </div>
+                <span><strong>Địa chỉ:</strong> 102 đường 17, Linh Chiểu, Thủ Đức.<br></span>
+                <span><strong>Số điện thoại:</strong> 0888 001 200<br></span>
+                <span><strong>Mail:</strong> info@smartthuanviet.com<br></span>
+                <span><strong>Web:</strong> smartthuanviet.com<br></span>
+            </div>
+            <div class="col-md-8">
+                <!--Google map-->
+                <iframe src="https://maps.google.com/maps?q=CÔNG TY S*MART THUẦN VIỆT&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                        frameborder="0"
+                        style="border:0" allowfullscreen></iframe>
+                <!--Google Maps-->
+            </div>
+        </div>
+    </div>
+    <hr size="50" color="red"/>
+</div>
+<script src="{% static 'home/js/jquery-3.3.1.slim.min.js' %}"></script>
+<script src="{% static 'home/js/popper.min.js' %}"></script>
+<script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'home/js/jvs.js' %}"></script>
+</body>
+</html>

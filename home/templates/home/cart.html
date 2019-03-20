@@ -1,0 +1,78 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% block title %}Cart{% endblock %}
+{% block base %}
+    {% if items %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9">
+                    <table class="table text-center" style="background-color:#FFFFFF;">
+                        <thead>
+                        <tr>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Tổng</th>
+                            <th scope="col">Xóa</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in items %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'home:detail' item.product.id %}"><img
+                                            src="{{ item.product.get_img.img.url }}" alt=""
+                                            style="height: 60px; width: 90px"></a>
+                                    <br>
+                                    <p>{{ item.product.name }}</p>
+                                </td>
+                                <td>{{ item.product.price }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.total_price }}</td>
+                                <td>
+                                    <button class="btn close" style="float: none" type="submit"
+                                            onclick="remove_product('{{ item.product.id }}')"><i
+                                            class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-3">
+                    <div style="background-color:#FFFFFF;">
+                        <h3 class="text-center">Thông tin đặt hàng</h3>
+                        <ul>
+                            <li>Chọn vị trí ngồi:
+                                <label for="table">
+                                    <select class="form-control" id="table" name="sellist1">
+                                        {% for table in tables %}
+                                            <option>{{ table.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                            </li>
+                            <li>Số lượng: <span>{{ count }}</span></li>
+                            <li>Tổng tiền: <span>{{ sum }}</span> VND</li>
+                        </ul>
+                        <div class="text-center">
+                            <button type="button" onclick="order()" class="btn button-add">Gọi món</button>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    {% else %}
+        <div class="container text-center">
+            <br>
+            <h1>Giỏ hàng trống</h1>
+            <a href="{% url 'home:index' %}"><img class="logo-smart ball" src="{% static 'home/images/icon.png' %}"
+                                                  alt="Logo smart"></a>
+            <br>
+            <br>
+        </div>
+    {% endif %}
+{% endblock %}

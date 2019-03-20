@@ -1,0 +1,23 @@
+{% extends 'home/user-base.html' %}
+{% load staticfiles %}
+{% block title %}Register{% endblock %}
+{% block user-base %}
+    <form method="POST">
+        {% csrf_token %}
+        {% for key, value in form.erros.item %}
+            {{ value }}
+        {% endfor %}
+        <p><input type="username" class="form-control" id="username" name="{{ form.username.name }}"
+                  placeholder="Tài khoản"></p>
+        <p><input type="email" class="form-control" id="email" name="{{ form.email.name }}"
+                  placeholder="Mail"></p>
+        <p><input type="password" class="form-control" id="password1" name="{{ form.password1.name }}"
+                  placeholder="Mật khẩu"></p>
+        <p><input type="password" class="form-control" id="password1" name="{{ form.password2.name }}"
+                  placeholder="Nhập lại mật khẩu"></p>
+        <input type="hidden" name="next" value="/">
+        <div class="text-center">
+            <button class="btn button-add" type="submit" name="submit">Đăng ký</button>
+        </div>
+    </form>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django import forms
 import re
 from django.contrib.auth.models import User
-from .models import Product, Product_Image
+from .models import Product, Product_Image, UserProfile, Wallet
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -32,9 +32,11 @@ class RegistrationForm(forms.Form):
     def save(self):
         User.objects.create_user(username=self.cleaned_data['username'], email=self.cleaned_data['email'],
                                  password=self.cleaned_data['password1'])
+        UserProfile.objects.create(user=User.objects.get(username=self.cleaned_data['username']))
+        Wallet.objects.create(user=User.objects.get(username=self.cleaned_data['username']))
 
 
-class AddProduct(forms.ModelForm):
+class NewProduct(forms.ModelForm):
     class Meta:
         model = Product
         fields = '__all__'

@@ -1,0 +1,124 @@
+{% load static %}
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="{% static 'chat/chatbox.css' %}"/>
+<div class="container">
+    <div class="row">
+        <div class="chatbox chatbox22 chatbox--tray">
+            <div class="chatbox__title">
+                <h5><a href="#">Chat với chúng tôi</a></h5>
+                <button class="chatbox__title__tray">
+                    <span></span>
+                </button>
+                <button class="chatbox__title__close">
+                    <span>
+                        <svg viewBox="0 0 12 12" width="12px" height="12px">
+                            <line stroke="#FFFFFF" x1="11.75" y1="0.25" x2="0.25" y2="11.75"></line>
+                            <line stroke="#FFFFFF" x1="11.75" y1="11.75" x2="0.25" y2="0.25"></line>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <div class="chatbox__body" id="chatbox_content">
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input id="btn-input" type="text" class="form-control input-sm chat_set_height"
+                           placeholder="Type your message here..." tabindex="0" dir="ltr" spellcheck="false"
+                           autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true"/>
+
+                    <span class="input-group-btn">
+                            <button class="btn bt_bg btn-sm" id="btn-chat">
+                                Send</button>
+                        </span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="{% static "chat/chatbox.js" %}"></script>
+<script src="{% static "chat/reconnecting-websocket.js" %}"></script>
+<script>
+    {% for c in conversations %}
+        var currentCS = "{{ c.id }}";
+    {% endfor%}
+    var chatSocket = new ReconnectingWebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/lobby/');
+    var SID = "{{ SID }}";
+    chatSocket.onopen = function (event) {
+        console.log('hello');
+        chatSocket.send(JSON.stringify({
+            'command': "fetch_messages",
+            'ID': currentCS
+        }));
+    };
+
+    chatSocket.onmessage = function (e) {
+        console.log('receive');
+        var data = JSON.parse(e.data);
+        var message = data['message'];
+        var author = data['author'];
+        var msgListtag = document.createElement('div');
+        var imgTag = document.createElement('img');
+        var divTag = document.createElement('div');
+        var uTag = document.createElement('ul');
+        var liTag1 = document.createElement('li');
+        var liTag2 = document.createElement('li');
+        var nameTag = document.createElement('strong');
+
+        liTag2.textContent = message;
+        liTag1.appendChild(nameTag);
+        uTag.className = "ul_msg";
+        uTag.appendChild(liTag1);
+        uTag.appendChild(liTag2);
+        divTag.className = "ul_section_full";
+        divTag.appendChild(uTag);
+        msgListtag.appendChild(imgTag);
+        msgListtag.appendChild(divTag);
+
+        imgTag.src = "https://cdn0.iconfinder.com/data/icons/elasto-online-store/26/00-ELASTOFONT-STORE-READY_user-circle-512.png";
+        if (SID === author) {
+            nameTag.textContent = "Tôi";
+            msgListtag.className = 'chatbox__body__message chatbox__body__message--right';
+        } else {
+
+            nameTag.textContent = "Smart";
+            msgListtag.className = 'chatbox__body__message chatbox__body__message--left';
+            imgTag.src = "https://smartthuanviet.com/wp-content/uploads/2017/10/logo-circle-1.png";
+
+        }
+        document.querySelector('#chatbox_content').appendChild(msgListtag);
+        $('#chatbox_content').scrollTop($('#chatbox_content')[0].scrollHeight);
+    };
+
+    chatSocket.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#btn-input').onkeyup = function (e) {
+        if (e.keyCode === 13) {
+            document.querySelector('#btn-chat').click();
+        }
+    };
+
+    document.querySelector('#btn-chat').onclick = function (e) {
+        var messageInputDom = document.getElementById('btn-input');
+        var message = messageInputDom.value;
+
+        console.log(message);
+        chatSocket.send(JSON.stringify({
+            'command': "new_messages",
+            'message': message,
+            'from': "{{ SID }}",
+            'to': currentCS
+        }));
+        messageInputDom.value = '';
+        $('#chatbox_content').scrollTop($('#chatbox_content')[0].scrollHeight);
+    }
+</script>

@@ -1,0 +1,25 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% block title %}Manage{% endblock %}
+{% block base %}
+    <div class="container" style="background-color: white">
+        <h2>
+            <center>Danh sách đơn hàng</center>
+        </h2>
+        <div class="container">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Mã hóa đơn</th>
+                    <th>Thời gian đặt hàng</th>
+                    <th>Chi tiết</th>
+                </tr>
+                </thead>
+                <tbody id="table-content">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="{% static 'manager/reload.js' %}"></script>
+{% endblock %}

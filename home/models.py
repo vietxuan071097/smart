@@ -8,8 +8,8 @@ class Cover(models.Model):
     img = models.ImageField(blank=True, null=True)
 
 
-class Species(models.Model):
-    name = models.CharField(max_length=100)
+class Category(models.Model):
+    name = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.name
@@ -17,22 +17,14 @@ class Species(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    species = models.ForeignKey(Species, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.IntegerField()
     date = models.DateTimeField(auto_now_add=True)
+    img = models.ImageField(blank=True, null=True)
     detail = models.CharField(blank=True, null=True, max_length=200)
 
     def __str__(self):
         return self.name
-
-    def number(self):
-        return "{:,}".format(self.price)
-
-    def get_img(self):
-        return Product_Image.objects.filter(product=self)[0]
-
-    def get_img_all(self):
-        return Product_Image.objects.filter(product=self)
 
 
 class Product_Image(models.Model):
@@ -57,15 +49,17 @@ class Table(models.Model):
 
 
 class Bill(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    order_method = models.BooleanField(default=False)
     table = models.ForeignKey(Table, null=True, on_delete=models.CASCADE)
+    address = models.CharField(blank=True, null=True, max_length=200)
+    phone_number = models.CharField(blank=True, null=True, max_length=15)
     creation_date = models.DateTimeField(null=True)
-    checked_out = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False)
 
-    def getdate(self):
+    def get_date(self):
         return self.creation_date
-
-    def getout(self):
-        return self.checked_out
 
     def __str__(self):
         return str(self.id)
@@ -78,3 +72,28 @@ class Bill_detail(models.Model):
 
     def total_price(self):
         return self.quantity * self.product.price
+
+
+class Sex(models.Model):
+    name = models.CharField(max_length=10)
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    birthday = models.DateField(null=True)
+    sex = models.ForeignKey(Sex, null=True, on_delete=models.CASCADE)
+    img = models.ImageField(blank=True, null=True)
+    phone_number = models.CharField(max_length=15, null=True)
+    address = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return str(self.user.username)
+
+
+class Wallet(models.Model):
+    user = models.ForeignKey(User, unique=True, on_delete=models.CASCADE)
+    balance = models.IntegerField(default=0)
+    point = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.user.username)

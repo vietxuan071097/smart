@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'manager/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'manager/style.css' %}">
+    <link rel="shortcut icon" href="{% static 'manager/favicon/favicon.ico' %}"/>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+<div id="header">
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="social" href="{% url 'index' %}"><img src="{% static 'manager/images/logo.png' %}"
+                                                        style="height: 50px; width: 122px"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav" style="margin: 0 auto;">
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'index' %}">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Giới thiệu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Liên hệ</a>
+                </li>
+                {% if user.username == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Quản lý</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">Admin</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% if user.is_authenticated %}
+                <spam style="color:#6B2C85">Xin chào <a id="smart" href="#">{{ user.username }}</a> | <a id="smart"
+                                                                                                         href="#">Đăng
+                    xuất</a></spam>
+            {% else %}
+                <spam><a id="smart" href="#">Đăng nhập</a> | <a id="smart" href="#">Tạo
+                    tài khoản</a></spam>
+            {% endif %}
+            <!-- <a id ="smart" class="nav-link" href="#"><i class="fa fa-shopping-cart" id="items"> {{count}}</i></a> -->
+            <a id="smart" href="https://www.facebook.com/VirustotalUITEdition" data-toggle="tooltip" title="Facebook"><i
+                    id="social-fb" class="fa fa-facebook-square fa-2x social"></i></a>
+            <a id="smart" href="https://plus.google.com/u/0/100716740184414915598" data-toggle="tooltip"
+               title="Google+"><i id="social-gp" class="fa fa-google-plus-square fa-2x social"></i></a>
+            <a id="smart" href="mailto:vietxuan071097@gmail.com" data-toggle="tooltip" title="Mail"><i id="social-em"
+                                                                                                       class="fa fa-envelope-square fa-2x social"></i></a>
+        </div>
+    </nav>
+</div>
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v3.2'
+        });
+    };
+
+    (function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="203056856907158"
+     theme_color="#750083"
+     logged_in_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?"
+     logged_out_greeting="Xin chào! Chúng tôi có thể giúp gì cho bạn?">
+</div>
+<div id="main" style="background-color:#F4F4F4;">
+    {% block content %}
+    {% endblock %}
+</div>
+<div id="footer">
+    <footer class="page-footer font-small unique-color-dark">
+        <div style="background-color: #6351ce;">
+            <p style="color: #6351ce;">asds</p>
+        </div>
+        <div class="container text-center text-md-left mt-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 style="color:#188C18" class="text-uppercase font-weight-bold">CÔNG TY S*MART THUẦN VIỆT</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <br>
+                    <span><strong>Địa chỉ:</strong> 102 đường 17, Linh Chiểu, Thủ Đức.<br></span>
+                    <span><strong>Số điện thoại:</strong> 0888 001 200<br></span>
+                    <span><strong>Mail:</strong> info@smartthuanviet.com<br></span>
+                    <span><strong>Web:</strong> smartthuanviet.com<br></span>
+                </div>
+                <div class="col-md-8">
+                    <!--Google map-->
+                    <div id="map-container-google-1" class="z-depth-1-half map-container"
+                         style="height: 300px; width: 100%;">
+                        <iframe src="https://maps.google.com/maps?q=CÔNG TY S*MART THUẦN VIỆT&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                                frameborder="0"
+                                style="border:0" allowfullscreen></iframe>
+                    </div>
+                    <!--Google Maps-->
+                </div>
+            </div>
+        </div>
+        <hr size="50" color="red"/>
+    </footer>
+</div>
+</body>
+</html>

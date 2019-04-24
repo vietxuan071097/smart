@@ -1,0 +1,46 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% load filter %}
+{% block title %}Pay{% endblock %}
+{% block base %}
+    <div class="container" style="background-color: white">
+        <br>
+        <h4>Hình thức thanh toán</h4>
+        <form action="{% url 'home:success' %}" method="post">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+                <label for="money">
+                    <input id="money" type="radio" onclick="pay_checked()" name="pay" value="money" checked> <i
+                        class="fa fa-money fa-2x text-style"
+                        aria-hidden="true"></i> Tiền
+                    mặt
+                </label>
+                <label for="card">
+                    <input id="card" type="radio" onclick="pay_checked()" name="pay" value="card"> <i
+                        class="fa fa-credit-card fa-2x text-style"
+                        aria-hidden="true"></i> Ví nội bộ
+                </label>
+                <p><strong>Số tiền cần thanh toán:</strong> {{ sum|format_num }}</p>
+                <div id="chose-card" style="display: none">
+                    <p><strong>Số tiền trong ví: </strong>{{ money|format_num }}</p>
+                    <p><strong>Còn lại:</strong> {{ balance|format_num }}</p>
+                </div>
+                <hr>
+            {% else %}
+                <label for="money">
+                    <input id="money" type="radio" name="pay" value="money" checked> <i
+                        class="fa fa-money fa-2x text-style"
+                        aria-hidden="true"></i> Tiền
+                    mặt
+                </label>
+                <p><strong>Số tiền cần thanh toán:</strong> {{ sum|format_num }}</p>
+                <hr>
+            {% endif %}
+            <input name="sum" value="{{ sum }}" type="hidden">
+            <div class="text-center">
+                <input class="btn button-add" type="submit" value="Gọi món">
+            </div>
+            <br>
+        </form>
+    </div>
+{% endblock %}

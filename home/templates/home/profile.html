@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% load filter %}
+{% block title %}Profile{% endblock %}
+{% block base %}
+    <div class="container" style="background-color: white">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <br>
+                <img src="/media/avatar.svg" style="width: 300px">
+            </div>
+            <div class="col-md-8">
+                <h1 class="text-center">Thông tin cá nhân</h1>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Tên tài khoản: </strong> {{ data.user.username }}</li>
+                    <li class="list-group-item"><strong>Họ và
+                        tên: </strong> {{ data.user.last_name }} {{ data.user.first_name }}</li>
+                    <li class="list-group-item"><strong>Email: </strong> {{ data.user.email }}</li>
+                    <li class="list-group-item"><strong>Ngày sinh: </strong>{{ data.birthday }}</li>
+                    <li class="list-group-item"><strong>Giới tính: </strong>{{ data.sex }}</li>
+                    <li class="list-group-item"><strong>Số điện thoại: </strong>{{ data.phone_number }}</li>
+                    <li class="list-group-item"><strong>Địa chỉ: </strong>{{ data.address }}</li>
+                    <li class="list-group-item"><strong>Số tiền trong tài khoản: </strong>{{ money.balance|format_num }}</li>
+                    <li class="list-group-item"><strong>Điểm tích lũy: </strong>{{ money.point }} điểm</li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

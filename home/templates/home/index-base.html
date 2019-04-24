@@ -3,8 +3,19 @@
 {% block base %}
     {% block index-base %}
     {% endblock %}
-    <a class="cart-button" href="{% url 'home:cart' %}">
-        <img class="img-button" src="{% static 'home/images/icon.png' %}" alt="Logo smart">
-        <p class="badge cart-button ball" id="count-items">{{ count }}</p>
+        <a class="cart-button" href="{% url 'home:cart' %}">
+            <img class="img-button" src="{% static 'home/images/icon.png' %}" alt="Logo smart">
+            <p class="badge cart-button ball" id="count-items">{{ count }}</p>
+        </a>
+    <a class="chat-button" onclick="test()">
+        <img class="img-button" src="http://noibo.beurervietnam.com/wp-content/uploads/2018/05/chat.png"
+             alt="Logo smart">
     </a>
+    <script>
+        function test() {
+            var $chatbox = $('.chatbox');
+
+            $chatbox.toggleClass('chatbox--closed');
+        }
+    </script>
 {% endblock %}

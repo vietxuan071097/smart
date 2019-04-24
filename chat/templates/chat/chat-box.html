@@ -1,0 +1,18 @@
+{% extends 'chat/main.html' %}
+{% block title %}Manage{% endblock %}
+{% block content %}
+
+    1<br>
+    2<br>
+    3<br>
+    4<br>
+    1<br>
+    2<br>
+    3<br>
+    4<br>
+    1<br>
+    2<br>
+    3<br>
+    4<br>
+    {% include "chat/box.html" with conversations=conversations user_name=user_name SID=SID%}
+{% endblock %}

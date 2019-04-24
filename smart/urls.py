@@ -21,7 +21,9 @@ from django.conf import settings
 urlpatterns = [
                   path('admin/', admin.site.urls),
                   path('', include('home.urls')),
+                  path('chat/',include("chat.urls")),
+                  path('manager/',include("manager.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'home.views.error'
-handler500 = 'home.views.error'
+# handler404 = 'home.views.error'
+# handler500 = 'home.views.error'

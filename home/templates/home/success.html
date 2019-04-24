@@ -1,0 +1,9 @@
+{% extends 'home/user-base.html' %}
+{% load staticfiles %}
+{% block title %}Success{% endblock %}
+{% block user-base %}
+    <div class="text-center text-style">
+        <h3>Đặt hàng thành công</h3>
+        <a class="text-style" href="{% url 'home:cart' %}">Xem lại đơn hàng</a> | <a class="text-style" href="{% url 'home:new-bill' %}">Đơn hàng mới</a>
+    </div>
+{% endblock %}

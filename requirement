@@ -1,2 +1,6 @@
 unidecode
 Pillow
+channels
+django
+channels_redis
+selenium

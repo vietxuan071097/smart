@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Product, Table, Bill, Product_Image, Cover, Direction, Species
+from django.contrib.sessions.models import Session
+from .models import Product, Table, Bill, Product_Image, Cover, Direction, Category, UserProfile, Wallet, Bill_detail
 
 
 class product(admin.ModelAdmin):
-    list_display = ['name', 'species', 'price']
+    list_display = ['name', 'category', 'price', 'img']
     list_filter = ['date']
     search_fields = ['name']
 
@@ -37,21 +38,32 @@ class cover(admin.ModelAdmin):
 
 
 class bill(admin.ModelAdmin):
-    list_display = ['table', 'creation_date', 'checked_out']
-    list_filter = ['table']
-    search_fields = ['table']
-    ordering = ['table']
+    list_display = ['creation_date', 'finished']
+    list_filter = ['creation_date']
+    search_fields = ['creation_date']
+    ordering = ['creation_date']
 
-class species(admin.ModelAdmin):
+
+class category(admin.ModelAdmin):
     list_display = ['name']
     list_filter = ['name']
     search_fields = ['name']
     ordering = ['name']
 
+from django.contrib.sessions.models import Session
+
+from chat.models import Message, Conversation
+
+admin.site.register(Message)
+admin.site.register(Conversation)
+admin.site.register(Session)
 admin.site.register(Product, product)
 admin.site.register(Direction, direction)
 admin.site.register(Table, table)
 admin.site.register(Product_Image, image)
 admin.site.register(Cover, cover)
 admin.site.register(Bill, bill)
-admin.site.register(Species, species)
+admin.site.register(Category, category)
+admin.site.register(UserProfile)
+admin.site.register(Wallet)
+admin.site.register(Bill_detail)

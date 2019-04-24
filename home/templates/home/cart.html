@@ -1,5 +1,6 @@
 {% extends 'home/base.html' %}
 {% load staticfiles %}
+{% load filter %}
 {% block title %}Cart{% endblock %}
 {% block base %}
     {% if items %}
@@ -20,20 +21,22 @@
                         {% for item in items %}
                             <tr>
                                 <td>
-                                    <a href="{% url 'home:detail' item.product.id %}"><img
-                                            src="{{ item.product.get_img.img.url }}" alt=""
+                                    <a href="{% url 'home:detail' item %}"><img
+                                            src="{{ items|get_item:item|get_item:'url' }}" alt=""
                                             style="height: 60px; width: 90px"></a>
                                     <br>
-                                    <p>{{ item.product.name }}</p>
+                                    <p>{{ items|get_item:item|get_item:'name' }}</p>
                                 </td>
-                                <td>{{ item.product.price }}</td>
-                                <td>{{ item.quantity }}</td>
-                                <td>{{ item.total_price }}</td>
+                                <td>{{ items|get_item:item|get_item:'price'|format_num}}</td>
+                                <td>{{ items|get_item:item|get_item:'quantity' }}</td>
+                                <td>{{ items|get_item:item|get_item:'total_price'|format_num }}</td>
                                 <td>
-                                    <button class="btn close" style="float: none" type="submit"
-                                            onclick="remove_product('{{ item.product.id }}')"><i
-                                            class="fa fa-trash"></i>
-                                    </button>
+                                    <form action="{% url 'home:remove' %}" method="get">
+                                        <input type="hidden" value="{{ item }}" name="product_id">
+                                        <button class="btn close" style="float: none" type="submit"><i
+                                                class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         {% endfor %}
@@ -42,28 +45,57 @@
                 </div>
                 <div class="col-md-3">
                     <div style="background-color:#FFFFFF;">
+                        <br>
                         <h3 class="text-center">Thông tin đặt hàng</h3>
                         <ul>
-                            <li>Chọn vị trí ngồi:
-                                <label for="table">
-                                    <select class="form-control" id="table" name="sellist1">
-                                        {% for table in tables %}
-                                            <option>{{ table.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                </label>
-                            </li>
                             <li>Số lượng: <span>{{ count }}</span></li>
-                            <li>Tổng tiền: <span>{{ sum }}</span> VND</li>
+                            <li>Tổng tiền: <span>{{ sum|format_num }}</span></li>
                         </ul>
-                        <div class="text-center">
-                            <button type="button" onclick="order()" class="btn button-add">Gọi món</button>
+                        <div class="container">
+                            <hr>
+                            <h4>Hình thức giao hàng</h4>
+                            <form action="{% url 'home:pay' %}" method="post">
+                                {% csrf_token %}
+                                <label for="table">
+                                    <input id="table" onclick="checked_change()" type="radio" name="method"
+                                           value="table"
+                                           checked> Tại quán
+                                </label>
+                                <label for="address">
+                                    <input id="address" onclick="checked_change()" type="radio" name="method"
+                                           value="address">
+                                    Giao hàng
+                                </label>
+                                <div id="chose-table" style="display: block">
+                                    Chọn vị trí ngồi:
+                                    <label for="table">
+                                        <select class="form-control" id="table" name="table">
+                                            {% for table in tables %}
+                                                <option>{{ table.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </label>
+                                    <hr>
+                                </div>
+                                <div id="chose-address" style="display: none">
+                                    <label for="address">Địa chỉ:</label><br>
+                                    <textarea name="address" id="address"
+                                              style="width: 100%"></textarea><br>
+                                    <label for="phone_number">Số điện thoại:</label><br>
+                                    <input id="phone_number" type="text" name="phone_number" maxlength="10"
+                                           style="width: 100%">
+                                    <hr>
+                                </div>
+                                <div class="text-center">
+                                    <input class="btn button-add" type="submit" value="Thanh toán">
+                                </div>
+                            </form>
                         </div>
                         <br>
                     </div>
+                    <br>
                 </div>
             </div>
-            <br>
         </div>
     {% else %}
         <div class="container text-center">

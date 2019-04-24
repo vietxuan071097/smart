@@ -41,7 +41,7 @@
                 {% endif %}
             </ul>
             {% if user.is_authenticated %}
-                <div class="text-style">Xin chào <a class="text-style" href="#">{{ user.username }}</a> | <a
+                <div class="text-style">Xin chào <a class="text-style" href="{% url 'home:profile' %}">{{ user.username }}</a> | <a
                         class="text-style" href="{% url 'home:logout' %}">Đăng xuất</a></div>
             {% else %}
                 <div><a class="text-style" href="{% url 'home:login' %}">Đăng nhập</a> | <a class="text-style"
@@ -90,6 +90,7 @@
     </div>
     <hr size="50" color="red"/>
 </div>
+
 <script src="{% static 'home/js/jquery-3.3.1.slim.min.js' %}"></script>
 <script src="{% static 'home/js/popper.min.js' %}"></script>
 <script src="{% static 'home/js/bootstrap.min.js' %}"></script>

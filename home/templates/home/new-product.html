@@ -1,0 +1,14 @@
+{% extends 'home/base.html' %}
+{% load staticfiles %}
+{% block title %}New product{% endblock %}
+{% block base %}
+    <form action="{% url 'home:new-product' %}" method="post">
+    {% csrf_token %}
+        <ul>
+            {% for f in form %}
+                <li>{{ f.label }}:{{ f }}</li>
+            {% endfor %}
+        </ul>
+        <input class="btn button-add" type="submit" value="Thêm món">
+    </form>
+{% endblock %}

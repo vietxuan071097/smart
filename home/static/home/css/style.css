@@ -40,8 +40,14 @@
 
 .cart-button {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 50px;
+    right: 10px;
+}
+
+.chat-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
 }
 
 .badge {

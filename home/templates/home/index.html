@@ -1,5 +1,6 @@
 {% extends 'home/index-base.html' %}
 {% load staticfiles %}
+{% load filter %}
 {% block title %}Home{% endblock %}
 {% block index-base %}
     {% if covers %}
@@ -64,18 +65,22 @@
                 <div class="tab-pane active" id="food">
                     <div class="row">
                         {% for product in products %}
-                            {% if product.species.id == 1 %}
+                            {% if product.category.name == 'Món ăn' %}
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-center">
                                     <br>
                                     <a href="{% url 'home:detail' product.id %}"><img
                                             class="social rounded image-product"
-                                            src="{{ product.get_img.img.url }}"></a>
+                                            src="{{ product.img.url }}"></a>
                                     <br>
-                                    <button type="submit" onclick="add_button('{{ product.id }}','{{ product.name }}')"
+                                    <button type="submit" onclick="add_product('{{ product.id }}','{{ product.name }}')"
                                             class="btn button-add"><i class="fa fa-cart-plus center"
                                                                       aria-hidden="true"></i> Thêm vào giỏ hàng
                                     </button>
-                                    <p>{{ product.name }} - <b>{{ product.number }}đ</b></p>
+                                    <form action="{% url 'home:index' %}" method="post">
+                                        <input type="hidden" name="product_id" value="{{ product.id }}">
+                                        <input type="hidden" name="product_name" value="{{ product.name }}">
+                                    </form>
+                                    <p>{{ product.name }} - <b>{{ product.price|format_num }}</b></p>
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -84,18 +89,18 @@
                 <div class="tab-pane" id="drink">
                     <div class="row">
                         {% for product in products %}
-                            {% if product.species.id == 2 %}
+                            {% if product.category.name == 'Đồ uống' %}
                                 <div class="col-lg-3 col-md-4 col-sm-6 text-center">
                                     <br>
                                     <a href="{% url 'home:detail' product.id %}"><img
                                             class="social rounded image-product"
-                                            src="{{ product.get_img.img.url }}"></a>
+                                            src="{{ product.img.url }}"></a>
                                     <br>
-                                    <button type="submit" onclick="add_button('{{ product.id }}','{{ product.name }}')"
+                                    <button type="submit" onclick="add_product('{{ product.id }}','{{ product.name }}')"
                                             class="btn button-add"><i class="fa fa-cart-plus center"
                                                                       aria-hidden="true"></i> Thêm vào giỏ hàng
                                     </button>
-                                    <p>{{ product.name }} - <b>{{ product.number }}đ</b></p>
+                                    <p>{{ product.name }} - <b>{{ product.price|format_num }}</b></p>
                                 </div>
                             {% endif %}
                         {% endfor %}
@@ -109,5 +114,6 @@
         </div>
     </div>
     <br>
+    {% include "home/box.html" with conversations=conversations user_name=user_name SID=SID%}
 {% endblock %}
 
